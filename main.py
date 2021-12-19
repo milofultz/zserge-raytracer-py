@@ -18,5 +18,17 @@ world = World(
     ]
 )
 
+position = Vec(0, 1, 5)
 
-visuals.render(world, 120, 80)
+while True:
+    visuals.render(world, 100, 40, position)
+    direction = input()
+    if direction == '\x1b[A':
+        position.z = position.z - 1
+    elif direction == '\x1b[B':
+        position.z = position.z + 1
+    elif direction == '\x1b[C':
+        position.x = position.x + 1
+    else:
+        position.x = position.x - 1
+    print('\n' * 100)

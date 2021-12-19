@@ -16,7 +16,7 @@ def trace(world: World, origin: Vec, direction: Vec):
             index = i
 
     if index < 0:
-        return 0
+        return 1 - direction.y
 
     p = origin + direction * distance
     n = (p - world.spheres[index].center).unit()
@@ -28,18 +28,23 @@ def trace(world: World, origin: Vec, direction: Vec):
             if not math.isnan(sphere.intersect(p, l)):
                 shadow = 1
         if not shadow:
-            return world.spheres[index].color
+            diffuse = max(0, (l % n) * .7)
+            specular = math.pow(max(0, (l % n)), 70) * .4
+            c = c + world.spheres[index].color * light.color * diffuse + specular
 
     return c
 
 
-def render(world: World, width: int, height: int):
+def render(world: World, width: int, height: int, position: Vec):
+    # with open('file.pgm', 'w') as f:
+        # f.write(f'P2\n{width} {height} 255\n')
     for y in range(height):
         for x in range(width):
             direction = Vec(x - width / 2, height / 2 - y, -height).unit()
             # c would be the color of the pixel
-            c = trace(world, Vec(0, 1, 5), direction)
+            c = trace(world, position, direction)
             # find the suitable ASCII symbol "density" from 0 to 10
             pixel = list(" .:-=+*#%@$")[int(c * 10)]
             print(pixel, end='')
+            # f.write(f'{int(c * 255)} ')
         print()
