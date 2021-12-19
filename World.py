@@ -1,4 +1,4 @@
-import Sphere
+from Sphere import Sphere
 
 
 class World:

@@ -1,5 +1,5 @@
 import math
-import Vec
+from Vec import Vec
 
 
 class Sphere:

@@ -27,5 +27,3 @@ class Vec:
     #   but the length of 1, known as a unit vector
     def unit(self) -> 'Vec':
         return Vec(self.x, self.y, self.z) * (1 / self.length())
-
-pass
