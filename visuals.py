@@ -17,8 +17,20 @@ def trace(world: World, origin: Vec, direction: Vec):
 
     if index < 0:
         return 0
-    else:
-        return 1
+
+    p = origin + direction * distance
+    n = (p - world.spheres[index].center).unit()
+    c = world.spheres[index].color * 0.1
+    for light in world.lights:
+        l = (light.center - p).unit()
+        shadow = 0
+        for sphere in world.spheres:
+            if not math.isnan(sphere.intersect(p, l)):
+                shadow = 1
+        if not shadow:
+            return world.spheres[index].color
+
+    return c
 
 
 def render(world: World, width: int, height: int):
